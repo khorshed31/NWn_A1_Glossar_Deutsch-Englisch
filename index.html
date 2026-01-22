@@ -177,6 +177,69 @@
     .table td, .table th{ padding: .85rem .75rem; }
     .table-responsive{ border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.10); }
 
+    /* Developer footer */
+    .dev-footer{
+      margin-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border-radius: 18px;
+      padding: 14px 14px;
+    }
+    .dev-footer .dev-line{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+      justify-content: space-between;
+    }
+    .dev-footer .left{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+    }
+    .dev-footer .right{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items:center;
+    }
+    .dev-footer .mini{
+      font-size: .9rem;
+      color: rgba(159,176,208,.92);
+    }
+    .dev-footer a{
+      color: rgba(122,162,255,.95);
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(122,162,255,.35);
+    }
+    .dev-footer a:hover{
+      color: rgba(122,162,255,1);
+      border-bottom-color: rgba(122,162,255,.8);
+    }
+    .dev-footer .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:.45rem;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: rgba(234,240,255,.95);
+      border-radius: 999px;
+      padding: .32rem .7rem;
+      font-size: .85rem;
+    }
+    .dev-footer .pill-btn{
+      cursor: pointer;
+      user-select:none;
+      transition: transform .05s ease, background .15s ease;
+    }
+    .dev-footer .pill-btn:hover{
+      background: rgba(255,255,255,.06);
+    }
+    .dev-footer .pill-btn:active{
+      transform: scale(.99);
+    }
+
     /* Hide top tabs on mobile (we use bottom nav) */
     @media (max-width: 991.98px){
       #tabs{ display: none !important; }
@@ -722,6 +785,43 @@
   </div><!-- row -->
 </div><!-- container -->
 
+<footer class="container-fluid px-3 pb-3">
+  <div class="dev-footer glass top-glow">
+    <div class="dev-line">
+      <div class="left">
+        <span class="pill">
+          <i class="bi bi-code-slash"></i>
+          <span class="mini">Developed by</span>
+          <b id="devName">Md Khorshed Alom</b>
+        </span>
+
+        <span class="pill">
+          <i class="bi bi-globe2"></i>
+          <span class="mini">Website:</span>
+          <a id="devSite" href="https://khorshed31.github.io/about-me/" target="_blank" rel="noopener">Website</a>
+        </span>
+      </div>
+
+      <div class="right">
+        <span class="pill">
+          <i class="bi bi-c-circle"></i>
+          <span id="copyLine">© <span id="copyYear"></span> A1 Glossar UI. All rights reserved.</span>
+        </span>
+
+        <span class="pill pill-btn" id="copyDevInfo" title="Copy developer info">
+          <i class="bi bi-clipboard"></i>
+          Copy
+        </span>
+      </div>
+    </div>
+
+    <!-- <div class="mt-2 mini">
+      This page uses browser SpeechSynthesis for pronunciation and stores favorites/known words locally in your browser.
+    </div> -->
+  </div>
+</footer>
+
+
 <!-- DETAILS MODAL -->
 <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -953,7 +1053,7 @@
 /* =========================
    CONFIG
 ========================= */
-const DATA_URL = './NWn_A1_Glossar_Deutsch-Englisch_grouped_FIXED.json';
+const DATA_URL = './NWn_A1_Glossar_Deutsch-Englisch_grouped_FIXED_FINAL.json';
 
 /* =========================
    KEYS (localStorage)
@@ -2182,6 +2282,31 @@ async function init(){
   }
 }
 init();
+
+// --- Footer: year + copy developer info ---
+(function footerInit(){
+  const y = new Date().getFullYear();
+  const yearEl = document.getElementById('copyYear');
+  if(yearEl) yearEl.textContent = y;
+
+  const btn = document.getElementById('copyDevInfo');
+  if(btn){
+    btn.onclick = async ()=>{
+      const devName = (document.getElementById('devName')?.textContent || '').trim();
+      const devEmail = (document.getElementById('devEmail')?.textContent || '').trim();
+      const devSite = (document.getElementById('devSite')?.textContent || '').trim();
+
+      const text = `Developer: ${devName}\nEmail: ${devEmail}\nWebsite: ${devSite}\n© ${y} A1 Glossar UI. All rights reserved.`;
+      try{
+        await navigator.clipboard.writeText(text);
+        toast('Copied developer info!');
+      }catch(e){
+        toast('Copy failed (browser blocked).');
+      }
+    };
+  }
+})();
+
 </script>
 
 <!-- MOBILE BOTTOM NAV -->
