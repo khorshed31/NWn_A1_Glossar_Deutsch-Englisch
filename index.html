@@ -1,0 +1,2454 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>A1 Glossar – Dark UI • Pronounce • Quiz • Flashcards • Favorites</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0a0e1a;
+      --panel:#0f1428;
+      --panel2:#141d35;
+      --card:#1a2847;
+      --text:#f0f4ff;
+      --muted:#a8bfd9;
+      --border: rgba(255,255,255,.08);
+      --accent:#6b9dff;
+      --accent-light:#8bb3ff;
+      --good:#2ecc71;
+      --warn:#f39c12;
+      --bad:#e74c3c;
+    }
+
+    html,body{
+      height:100%;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    }
+
+    body{
+      background:
+        linear-gradient(135deg, #0a0e1a 0%, #0f1428 25%, #141d35 50%, #0a0e1a 100%),
+        radial-gradient(1400px 1000px at 15% -5%, rgba(107,157,255,.12) 0%, transparent 50%),
+        radial-gradient(1000px 800px at 105% 95%, rgba(46,204,113,.08) 0%, transparent 55%);
+      background-attachment: fixed;
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* Premium glass effect */
+    .glass{
+      background: linear-gradient(135deg, rgba(15,20,40,.45) 0%, rgba(20,29,53,.35) 100%);
+      border: 1px solid rgba(107,157,255,.15);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 20px;
+      box-shadow: 
+        0 8px 32px rgba(0,0,0,.3),
+        inset 0 1px 1px rgba(255,255,255,.1),
+        0 0 50px rgba(107,157,255,.05);
+      transition: all .3s cubic-bezier(.4,.0,.2,1);
+    }
+
+    .glass:hover{
+      border-color: rgba(107,157,255,.25);
+      box-shadow: 
+        0 16px 48px rgba(0,0,0,.4),
+        inset 0 1px 1px rgba(255,255,255,.15),
+        0 0 80px rgba(107,157,255,.1);
+    }
+
+    /* Enhanced animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(107,157,255,.3); }
+      50% { box-shadow: 0 0 40px rgba(107,157,255,.6); }
+    }
+
+    .app-shell{ min-height: 100vh; }
+    .sidebar{ position: sticky; top: 1rem; overflow: auto; }
+    
+    .brand{ 
+      font-weight: 900; 
+      letter-spacing: -.5px;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .muted{ color: var(--muted); }
+
+    /* Enhanced chips */
+    .chip{
+      display:inline-flex; 
+      align-items:center; 
+      gap:.5rem;
+      border: 1px solid rgba(107,157,255,.2);
+      background: rgba(107,157,255,.08);
+      color: var(--text);
+      border-radius: 12px;
+      padding: .35rem .75rem;
+      font-size: .85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all .2s ease;
+    }
+
+    .chip-btn{ 
+      cursor:pointer; 
+      user-select:none; 
+      transition: all .2s cubic-bezier(.4,.0,.2,1);
+    }
+
+    .chip-btn:hover{ 
+      background: rgba(107,157,255,.15);
+      border-color: rgba(107,157,255,.4);
+      transform: translateY(-2px);
+    }
+
+    .chip-btn:active{ transform: scale(.97); }
+
+    .chip-on{
+      background: rgba(107,157,255,.25) !important;
+      border-color: rgba(107,157,255,.5) !important;
+      box-shadow: 0 0 20px rgba(107,157,255,.2);
+    }
+
+    /* Premium buttons */
+    .btn{
+      font-weight: 600;
+      border-radius: 12px;
+      transition: all .2s cubic-bezier(.4,.0,.2,1);
+      border: 1px solid transparent;
+      padding: .6rem 1.2rem;
+    }
+
+    .btn-soft{
+      background: linear-gradient(135deg, rgba(107,157,255,.25) 0%, rgba(107,157,255,.15) 100%);
+      border: 1px solid rgba(107,157,255,.4);
+      color: var(--text);
+      box-shadow: 0 4px 15px rgba(107,157,255,.15);
+    }
+
+    .btn-soft:hover{ 
+      background: linear-gradient(135deg, rgba(107,157,255,.35) 0%, rgba(107,157,255,.25) 100%);
+      border-color: rgba(107,157,255,.6);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(107,157,255,.25);
+    }
+
+    .btn-soft:active{ transform: translateY(0); }
+
+    .btn-ghost{
+      background: rgba(107,157,255,.08);
+      border: 1px solid rgba(107,157,255,.15);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover{ 
+      background: rgba(107,157,255,.15);
+      border-color: rgba(107,157,255,.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-group .btn{ border-radius: 10px; }
+
+    /* Form controls */
+    .form-control, .form-select, .input-group-text{
+      background: rgba(15,20,40,.6) !important;
+      color: var(--text) !important;
+      border: 1px solid rgba(107,157,255,.2) !important;
+      border-radius: 12px !important;
+      transition: all .2s ease;
+    }
+
+    .form-control:focus, .form-select:focus, .input-group-text:focus{
+      background: rgba(20,29,53,.8) !important;
+      border-color: rgba(107,157,255,.5) !important;
+      box-shadow: 0 0 0 .25rem rgba(107,157,255,.1) !important;
+    }
+
+    .form-control::placeholder{ color: rgba(168,191,217,.5); }
+
+    .kbar{
+      font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      border:1px solid rgba(107,157,255,.2);
+      background: rgba(107,157,255,.1);
+      padding:.15rem .45rem;
+      border-radius:.6rem;
+      font-size:.8rem;
+      font-weight: 600;
+      color: var(--accent-light);
+    }
+
+    /* Premium badges */
+    .badge-fix{
+      background: rgba(243,156,18,.18);
+      border: 1px solid rgba(243,156,18,.4);
+      color: #ffc966;
+      font-weight: 600;
+      padding: .35rem .65rem;
+      border-radius: 8px;
+      font-size: .8rem;
+    }
+
+    .badge-ok{
+      background: rgba(46,204,113,.15);
+      border: 1px solid rgba(46,204,113,.4);
+      color: #5dde95;
+      font-weight: 600;
+      padding: .35rem .65rem;
+      border-radius: 8px;
+      font-size: .8rem;
+    }
+
+    /* Word cards */
+    .word-card{
+      background: linear-gradient(135deg, rgba(26,40,71,.5) 0%, rgba(20,29,53,.4) 100%);
+      border: 1px solid rgba(107,157,255,.15);
+      border-radius: 16px;
+      padding: 16px;
+      transition: all .3s cubic-bezier(.4,.0,.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .word-card::before{
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(107,157,255,.1), transparent 80%);
+      opacity: 0;
+      transition: opacity .3s ease;
+      pointer-events: none;
+    }
+
+    .word-card:hover{
+      background: linear-gradient(135deg, rgba(26,40,71,.7) 0%, rgba(20,29,53,.6) 100%);
+      border-color: rgba(107,157,255,.3);
+      box-shadow: 0 8px 32px rgba(107,157,255,.1);
+      transform: translateY(-4px);
+    }
+
+    .word-card:hover::before{
+      opacity: 1;
+    }
+
+    .word-card:active{ transform: translateY(-2px); }
+
+    .de{ 
+      font-weight: 900; 
+      font-size: 1.1rem; 
+      color: var(--text);
+      letter-spacing: -.3px;
+    }
+
+    .en{ 
+      color: var(--muted); 
+      font-size: .95rem;
+      font-weight: 500;
+    }
+
+    .article{ 
+      color: var(--accent-light);
+      font-weight: 700;
+    }
+
+    .sticky-topbar{ 
+      position: sticky; 
+      top: 0; 
+      z-index: 10;
+      background: rgba(10,14,26,.8);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-radius: 12px;
+    }
+
+    .tab-pane{ padding-top: .5rem; }
+
+    .divider{ 
+      border-top: 1px solid rgba(107,157,255,.15); 
+      opacity: 1;
+      margin: 1.5rem 0 !important;
+    }
+
+    /* Progress bar */
+    .progress{ 
+      background: rgba(107,157,255,.08); 
+      border: 1px solid rgba(107,157,255,.15);
+      height: 1rem; 
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar{ 
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+      box-shadow: 0 0 20px rgba(107,157,255,.3);
+    }
+
+    /* Flashcard */
+    .fc{
+      min-height: 300px;
+      display:flex; 
+      flex-direction:column; 
+      justify-content:center; 
+      align-items:center;
+      text-align:center;
+      padding: 40px;
+      border-radius: 20px;
+      border: 2px solid rgba(107,157,255,.2);
+      background: linear-gradient(135deg, rgba(26,40,71,.6) 0%, rgba(20,29,53,.4) 100%);
+      cursor: pointer;
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fc::before{
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: radial-gradient(circle, rgba(107,157,255,.3), transparent 70%);
+      animation: glow-pulse 3s ease-in-out infinite;
+    }
+
+    .fc:hover{
+      border-color: rgba(107,157,255,.4);
+      box-shadow: 0 0 40px rgba(107,157,255,.2);
+    }
+
+    .fc .front{ 
+      font-size: 2.5rem; 
+      font-weight: 950;
+      position: relative;
+      z-index: 1;
+      letter-spacing: -.5px;
+    }
+
+    .fc .back{ 
+      font-size: 1.35rem; 
+      color: var(--accent);
+      position: relative;
+      z-index: 1;
+      font-weight: 600;
+    }
+
+    .toast-container{ z-index: 9999; }
+
+    .hint{ 
+      font-size:.9rem; 
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Dropdown */
+    .dropdown-menu.dropdown-menu-dark{
+      background: rgba(10,14,26,.98);
+      border: 1px solid rgba(107,157,255,.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .dropdown-divider{ border-color: rgba(107,157,255,.15); }
+    .dropdown-item-text{ color: var(--text); }
+
+    .form-check-input{
+      background-color: rgba(107,157,255,.1);
+      border-color: rgba(107,157,255,.3);
+      transition: all .2s ease;
+    }
+
+    .form-check-input:checked{
+      background-color: var(--accent);
+      border-color: var(--accent-light);
+      box-shadow: 0 0 15px rgba(107,157,255,.4);
+    }
+
+    /* Table */
+    .table-dark{
+      --bs-table-bg: rgba(26,40,71,.3);
+      --bs-table-striped-bg: rgba(107,157,255,.08);
+      --bs-table-hover-bg: rgba(107,157,255,.15);
+      --bs-table-border-color: rgba(107,157,255,.15);
+      --bs-table-color: var(--text);
+    }
+
+    .table thead th{
+      color: var(--text) !important;
+      background: linear-gradient(135deg, rgba(15,20,40,.8) 0%, rgba(20,29,53,.7) 100%) !important;
+      border-bottom: 1px solid rgba(107,157,255,.2) !important;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: .85rem;
+      letter-spacing: .5px;
+    }
+
+    .table td, .table th{ 
+      padding: 1rem .75rem;
+      vertical-align: middle;
+    }
+
+    .table-responsive{ 
+      border-radius: 16px; 
+      overflow: hidden; 
+      border: 1px solid rgba(107,157,255,.15);
+    }
+
+    /* Nav tabs */
+    .nav-pills .nav-link{
+      border-radius: 12px;
+      transition: all .2s ease;
+      font-weight: 600;
+      padding: .5rem 1rem;
+      border: 1px solid transparent;
+    }
+
+    .nav-pills .nav-link:hover{
+      background: rgba(107,157,255,.15);
+    }
+
+    .nav-pills .nav-link.active{
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+      box-shadow: 0 4px 15px rgba(107,157,255,.3);
+    }
+
+    /* Mobile styles */
+    @media (max-width: 991.98px){
+      #tabs{ display: none !important; }
+      .container-fluid{ padding-bottom: 100px !important; }
+      .sidebar{ position: static; height: auto; }
+      .sticky-topbar{ position: sticky; top: .5rem; }
+      .btn, .form-control, .form-select{ min-height: 48px; }
+      .btn.btn-sm{ min-height: 44px; }
+      .chip{ padding: .4rem .8rem; }
+      .word-card{ padding: 14px; }
+      .fc{ min-height: 250px; padding: 30px; }
+      .fc .front{ font-size: 2rem; }
+      .fc .back{ font-size: 1.15rem; }
+    }
+
+    /* Bottom navigation */
+    .bottom-nav{
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      padding: 12px calc(10px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(10,14,26,.3), rgba(10,14,26,.9));
+      border-top: 1px solid rgba(107,157,255,.2);
+      backdrop-filter: blur(20px);
+      z-index: 1050;
+    }
+
+    .bottom-nav .nav-btn{
+      flex: 1;
+      border: 1px solid rgba(107,157,255,.15);
+      background: rgba(107,157,255,.08);
+      color: var(--muted);
+      border-radius: 14px;
+      padding: 10px 8px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap: 4px;
+      font-size: .7rem;
+      line-height: 1;
+      user-select:none;
+      font-weight: 600;
+      transition: all .2s ease;
+    }
+
+    .bottom-nav .nav-btn:active{
+      transform: scale(.95);
+    }
+
+    .bottom-nav .nav-btn i{ 
+      font-size: 1.3rem;
+      transition: all .2s ease;
+    }
+
+    .bottom-nav .nav-btn.active{
+      background: linear-gradient(135deg, rgba(107,157,255,.3) 0%, rgba(107,157,255,.2) 100%);
+      border-color: rgba(107,157,255,.4);
+      color: var(--text);
+      box-shadow: 0 4px 15px rgba(107,157,255,.2);
+    }
+
+    /* Top glow effect */
+    .top-glow{
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-glow::before{
+      content:"";
+      position:absolute;
+      inset:-2px -2px auto -2px;
+      height: 150px;
+      background: radial-gradient(600px 150px at 30% 0%, rgba(107,157,255,.15), transparent 70%),
+                  radial-gradient(500px 160px at 85% 0%, rgba(46,204,113,.1), transparent 70%);
+      pointer-events:none;
+      opacity: .8;
+    }
+
+    /* Mobile app bar */
+    .mobile-app-bar{
+      border-radius: 16px;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar{
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track{
+      background: rgba(107,157,255,.05);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+      background: rgba(107,157,255,.2);
+      border-radius: 10px;
+      transition: background .2s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover{
+      background: rgba(107,157,255,.4);
+    }
+
+    /* Modal styling */
+    .modal-content{
+      border-radius: 20px !important;
+      border: 1px solid rgba(107,157,255,.2) !important;
+    }
+
+    .modal-header{
+      border-bottom: 1px solid rgba(107,157,255,.1) !important;
+    }
+
+    .modal-title{
+      font-weight: 700;
+      font-size: 1.35rem;
+    }
+
+    /* Offcanvas */
+    .offcanvas{
+      border-right: 1px solid rgba(107,157,255,.2);
+    }
+
+    .offcanvas-header{
+      border-bottom: 1px solid rgba(107,157,255,.1);
+    }
+  </style>
+</head>
+
+<body>
+<div class="container-fluid p-3 app-shell">
+
+  <!-- MOBILE FILTER OFFCANVAS -->
+  <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="filterCanvas" aria-labelledby="filterCanvasLabel"
+       style="background: rgba(10,14,26,.98);">
+    <div class="offcanvas-header">
+      <div>
+        <div class="brand fs-5" id="filterCanvasLabel">Filters</div>
+        <div class="muted small">Chapter • Groups • Search</div>
+      </div>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body pt-0">
+      <div class="glass p-3">
+        <div class="d-flex align-items-start justify-content-between gap-2">
+          <div>
+            <div class="brand fs-5">A1 Glossar</div>
+            <div class="muted small">Deutsch → English • Pronounce • Quiz</div>
+          </div>
+          <div class="text-end">
+            <div class="chip" id="mChipTotal">0</div>
+            <div class="muted small mt-1">words</div>
+          </div>
+        </div>
+
+        <hr class="divider my-3">
+
+        <label class="form-label small muted mb-2 fw-600">Search</label>
+        <div class="input-group mb-2">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input id="mq" class="form-control" placeholder="German or English…"/>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-6">
+            <select id="mSearchMode" class="form-select form-select-sm">
+              <option value="contains">Contains</option>
+              <option value="starts">Starts with</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <select id="mSortMode" class="form-select form-select-sm">
+              <option value="default">Default</option>
+              <option value="az">A → Z</option>
+              <option value="za">Z → A</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <select id="mViewMode" class="form-select form-select-sm">
+              <option value="cards">Cards</option>
+              <option value="table">Table</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-2">
+          <button class="btn btn-ghost btn-sm w-100" id="mClearBtn"><i class="bi bi-x-circle"></i> Clear</button>
+          <button class="btn btn-soft btn-sm w-100" id="mRandomSpeakBtn"><i class="bi bi-shuffle"></i> Random</button>
+        </div>
+
+        <hr class="divider my-3">
+
+        <label class="form-label small muted mb-2 fw-600">Chapter</label>
+        <select id="mChapterSelect" class="form-select"></select>
+
+        <div class="mt-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <label class="form-label small muted mb-0 fw-600">Groups / Sections</label>
+            <div class="d-flex gap-2">
+              <button class="btn btn-ghost btn-sm" id="mAllSectionsBtn" title="Select/Unselect all"><i class="bi bi-check2-square"></i></button>
+            </div>
+          </div>
+
+          <div class="dropdown mt-2" data-bs-auto-close="outside">
+            <button class="btn btn-ghost w-100 d-flex justify-content-between align-items-center"
+                    id="mSectionDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+              <span><i class="bi bi-layers me-1"></i> Choose sections</span>
+              <span class="chip" id="mSectionCount">0</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark w-100 p-2" id="mSectionDropdownMenu" style="max-height: 320px; overflow:auto;"></ul>
+          </div>
+        </div>
+
+        <hr class="divider my-3">
+
+        <div class="muted small">
+          <div class="fw-600 mb-2">Shortcuts</div>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="chip"><span class="kbar">/</span> search</span>
+            <span class="chip"><span class="kbar">S</span> speak</span>
+            <span class="chip"><span class="kbar">F</span> favorite</span>
+            <span class="chip"><span class="kbar">Q</span> quiz</span>
+            <span class="chip"><span class="kbar">C</span> cards</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <!-- SIDEBAR -->
+    <div class="col-12 col-lg-3 d-none d-lg-block">
+      <div class="glass sidebar p-3 top-glow">
+        <div class="d-flex align-items-start justify-content-between gap-2">
+          <div>
+            <div class="brand fs-5">A1 Glossar</div>
+            <div class="muted small">Deutsch → English • Pronounce • Quiz • Flashcards</div>
+            <div class="mt-2 d-flex flex-wrap gap-2">
+              <span class="chip"><i class="bi bi-volume-up"></i> Click to speak</span>
+              <span class="chip"><i class="bi bi-lightning-fill"></i> Quiz + Cards</span>
+            </div>
+          </div>
+          <div class="text-end">
+            <div class="chip" id="chipTotal">0</div>
+            <div class="muted small mt-1">words</div>
+          </div>
+        </div>
+
+        <hr class="divider my-3">
+
+        <label class="form-label small muted mb-2 fw-600">Search</label>
+        <div class="input-group mb-2">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input id="q" class="form-control" placeholder="German or English…"/>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-6">
+            <select id="searchMode" class="form-select form-select-sm">
+              <option value="contains">Contains</option>
+              <option value="starts">Starts with</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <select id="sortMode" class="form-select form-select-sm">
+              <option value="default">Default</option>
+              <option value="az">A → Z</option>
+              <option value="za">Z → A</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <select id="viewMode" class="form-select form-select-sm">
+              <option value="cards">Cards</option>
+              <option value="table">Table</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-2">
+          <button class="btn btn-ghost btn-sm w-100" id="clearBtn"><i class="bi bi-x-circle"></i> Clear</button>
+          <button class="btn btn-soft btn-sm w-100" id="randomSpeakBtn"><i class="bi bi-shuffle"></i> Random</button>
+        </div>
+
+        <hr class="divider my-3">
+
+        <label class="form-label small muted mb-2 fw-600">Chapter</label>
+        <select id="chapterSelect" class="form-select"></select>
+
+        <div class="mt-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="muted small fw-600">Groups / Sections</div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-ghost btn-sm" id="allSectionsBtn" title="Select/Unselect all">
+                <i class="bi bi-check2-square"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="dropdown mt-2" data-bs-auto-close="outside">
+            <button class="btn btn-ghost w-100 d-flex justify-content-between align-items-center"
+                    id="sectionDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+              <span><i class="bi bi-layers me-1"></i> Choose sections</span>
+              <span class="chip" id="sectionCount">0</span>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-dark w-100 p-2" id="sectionDropdownMenu" style="max-height: 360px; overflow:auto;"></ul>
+          </div>
+
+          <div class="d-flex gap-2 mt-2">
+            <button class="btn btn-soft btn-sm w-100" id="markKnownBtn"><i class="bi bi-check2"></i> Mark Known</button>
+            <button class="btn btn-ghost btn-sm w-100" id="exportFavBtn"><i class="bi bi-download"></i> Export</button>
+          </div>
+        </div>
+
+        <hr class="divider my-3">
+
+        <div class="muted small">
+          <div class="fw-600 mb-2">Shortcuts</div>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="chip"><span class="kbar">/</span> search</span>
+            <span class="chip"><span class="kbar">S</span> speak</span>
+            <span class="chip"><span class="kbar">F</span> favorite</span>
+            <span class="chip"><span class="kbar">Q</span> quiz</span>
+            <span class="chip"><span class="kbar">C</span> cards</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="col-12 col-lg-9">
+      <!-- MOBILE APP BAR -->
+      <div class="d-lg-none mb-2">
+        <div class="glass p-2 d-flex align-items-center justify-content-between mobile-app-bar">
+          <button class="btn btn-ghost btn-sm" data-bs-toggle="offcanvas" data-bs-target="#filterCanvas" aria-controls="filterCanvas">
+            <i class="bi bi-sliders2"></i>
+          </button>
+          <div class="text-center flex-grow-1" style="min-width:0">
+            <div class="brand" style="font-size:1.1rem; line-height:1.1">A1 Glossar</div>
+            <div class="muted" style="font-size:.78rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis" id="mobileSubtitle">Loading…</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="mobileSpeakLast" title="Speak last">
+            <i class="bi bi-volume-up"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="glass p-3 top-glow">
+
+        <!-- TOPBAR -->
+        <div class="sticky-topbar pb-2">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <div class="fs-5 fw-bold" id="title">Loading…</div>
+              <div class="muted small" id="subtitle">Please wait…</div>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <span class="chip"><i class="bi bi-megaphone"></i> Voice: <span class="muted" id="voiceLabel">detecting…</span></span>
+              <div class="btn-group">
+                <button class="btn btn-ghost btn-sm" id="stopVoiceBtn" title="Stop voice"><i class="bi bi-stop-fill"></i></button>
+                <button class="btn btn-ghost btn-sm" id="speakSlowBtn" title="Slow voice"><i class="bi bi-turtle"></i></button>
+                <button class="btn btn-ghost btn-sm" id="speakNormalBtn" title="Normal voice"><i class="bi bi-rabbit"></i></button>
+              </div>
+              <button class="btn btn-soft btn-sm" id="openHelp"><i class="bi bi-question-circle"></i> Help</button>
+            </div>
+          </div>
+
+          <hr class="divider my-2">
+
+          <!-- NAV TABS -->
+          <ul class="nav nav-pills gap-2" id="tabs">
+            <li class="nav-item"><button class="nav-link active" data-tab="browse"><i class="bi bi-list-ul me-1"></i>Browse</button></li>
+            <li class="nav-item"><button class="nav-link" data-tab="flash"><i class="bi bi-card-text me-1"></i>Flashcards</button></li>
+            <li class="nav-item"><button class="nav-link" data-tab="quiz"><i class="bi bi-controller me-1"></i>Quiz</button></li>
+            <li class="nav-item"><button class="nav-link" data-tab="fav"><i class="bi bi-heart-fill me-1"></i>Favorites</button></li>
+            <li class="nav-item"><button class="nav-link" data-tab="settings"><i class="bi bi-gear me-1"></i>Settings</button></li>
+          </ul>
+
+          <hr class="divider my-2">
+        </div>
+
+        <!-- CONTENT PANES -->
+        <div class="tab-pane" id="pane-browse">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="chip"><i class="bi bi-funnel"></i> Results: <span class="muted" id="resultCount">0</span></span>
+              <span class="chip"><i class="bi bi-check2-circle"></i> Known: <span class="muted" id="knownCount">0</span></span>
+              <span class="chip"><i class="bi bi-heart"></i> Favorites: <span class="muted" id="favCount">0</span></span>
+            </div>
+          </div>
+
+          <div id="browseCards" class="row g-3"></div>
+
+          <div id="browseTable" class="d-none">
+            <div class="table-responsive">
+              <table class="table table-sm align-middle table-dark table-borderless">
+                <thead>
+                  <tr>
+                    <th style="width:32%">Deutsch</th>
+                    <th style="width:48%">English</th>
+                    <th style="width:20%">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
+            <div class="muted small" id="pageInfo"></div>
+            <div class="btn-group">
+              <button class="btn btn-ghost btn-sm" id="prevBtn"><i class="bi bi-chevron-left"></i></button>
+              <button class="btn btn-ghost btn-sm" id="nextBtn"><i class="bi bi-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLASHCARDS -->
+        <div class="tab-pane d-none" id="pane-flash">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="chip"><i class="bi bi-card-text"></i> Mode: <span class="muted" id="fcModeLabel">DE → EN</span></span>
+              <span class="chip"><i class="bi bi-lightning-fill"></i> Deck: <span class="muted" id="fcDeckSize">0</span></span>
+              <span class="chip"><i class="bi bi-clock-history"></i> Recent: <span class="muted" id="recentCount">0</span></span>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-ghost btn-sm" id="fcToggleMode"><i class="bi bi-arrow-left-right"></i> Swap</button>
+              <button class="btn btn-soft btn-sm" id="fcNew"><i class="bi bi-shuffle"></i> New</button>
+            </div>
+          </div>
+
+          <div class="fc glass" id="flashCard">
+            <div class="front" id="fcFront">—</div>
+            <div class="back mt-3 d-none" id="fcBack">—</div>
+            <div class="hint mt-4">Click to flip • <span class="kbar">Space</span> • Speak <span class="kbar">S</span></div>
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4">
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn btn-ghost" id="fcFlip"><i class="bi bi-arrow-repeat me-1"></i> Flip</button>
+              <button class="btn btn-ghost" id="fcSpeak"><i class="bi bi-volume-up me-1"></i> Speak</button>
+              <button class="btn btn-ghost" id="fcFav"><i class="bi bi-heart me-1"></i> Favorite</button>
+              <button class="btn btn-ghost" id="fcKnown"><i class="bi bi-check2-circle me-1"></i> Known</button>
+            </div>
+            <div style="min-width:250px">
+              <div class="muted small mb-2 fw-600">Progress (Known)</div>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" id="fcProg" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div class="tab-pane d-none" id="pane-quiz">
+          <div class="row g-3">
+            <div class="col-12 col-xl-7">
+              <div class="glass p-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                  <div class="d-flex flex-wrap gap-2">
+                    <span class="chip"><i class="bi bi-question-circle"></i> <span id="qIdx">0</span>/<span id="qTotal">0</span></span>
+                    <span class="chip"><i class="bi bi-star-fill"></i> Score: <span id="qScore">0</span></span>
+                    <span class="chip"><i class="bi bi-funnel"></i> Pool: <span id="quizPoolCount" class="muted">0</span></span>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" id="quizRecalc"><i class="bi bi-arrow-repeat"></i> Refresh</button>
+                </div>
+
+                <div class="mt-3">
+                  <div class="muted small fw-600" id="quizPrompt">Meaning of:</div>
+                  <div class="fs-2 fw-bold d-flex align-items-center gap-2 mt-2">
+                    <span id="quizWord">—</span>
+                    <button class="btn btn-ghost btn-sm" id="quizSpeak"><i class="bi bi-volume-up"></i></button>
+                  </div>
+                </div>
+
+                <div class="mt-4 d-grid gap-2" id="answers"></div>
+                <div class="mt-3 muted small" id="quizMsg">Press Start.</div>
+
+                <hr class="divider my-3">
+
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="chip"><i class="bi bi-lightning-fill"></i> Tip: Use "Quiz Filters" to choose chapter + groups</span>
+                  <span class="chip"><i class="bi bi-ear"></i> Listening mode speaks automatically</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quiz Filters -->
+            <div class="col-12 col-xl-5">
+              <div class="glass p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div class="fw-bold fs-6">Quiz Filters</div>
+                  <button class="btn btn-ghost btn-sm" id="quizSyncFromBrowse" title="Copy current browse chapter/sections">
+                    <i class="bi bi-arrow-down-circle"></i> Sync
+                  </button>
+                </div>
+                <div class="muted small">Choose chapter + sections (dropdown) and quiz settings.</div>
+
+                <div class="mt-3">
+                  <label class="form-label small muted mb-2 fw-600">Chapter</label>
+                  <select class="form-select" id="quizChapterSelect"></select>
+                </div>
+
+                <div class="mt-3">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label small muted mb-0 fw-600">Sections / Groups</label>
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-ghost btn-sm" id="quizAllSections" title="Select all"><i class="bi bi-check2-square"></i></button>
+                      <button class="btn btn-ghost btn-sm" id="quizNoneSections" title="Select none"><i class="bi bi-square"></i></button>
+                    </div>
+                  </div>
+
+                  <div class="dropdown" data-bs-auto-close="outside">
+                    <button class="btn btn-ghost w-100 d-flex justify-content-between align-items-center"
+                            id="quizSectionDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                      <span><i class="bi bi-layers me-1"></i> Choose sections</span>
+                      <span class="chip" id="quizSectionCount">0</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark w-100 p-2" id="quizSectionDropdownMenu" style="max-height: 300px; overflow:auto;"></ul>
+                  </div>
+                </div>
+
+                <hr class="divider my-3">
+
+                <div class="fw-bold mb-2">Quiz Settings</div>
+
+                <div class="mt-3">
+                  <label class="form-label small muted mb-2 fw-600">Type</label>
+                  <select class="form-select" id="quizType">
+                    <option value="de2en">DE → EN</option>
+                    <option value="en2de">EN → DE</option>
+                    <option value="listen">Listening (hear DE, choose EN)</option>
+                  </select>
+                </div>
+
+                <div class="mt-3">
+                  <label class="form-label small muted mb-2 fw-600">Questions</label>
+                  <input type="range" class="form-range" min="5" max="40" step="1" id="quizN" value="10">
+                  <div class="d-flex justify-content-between muted small">
+                    <span>5</span>
+                    <span><span id="quizNLabel">10</span></span>
+                    <span>40</span>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="quizUseSearch" checked>
+                    <label class="form-check-label muted small" for="quizUseSearch">Use current search</label>
+                  </div>
+                  <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="quizFavOnly">
+                    <label class="form-check-label muted small" for="quizFavOnly">Favorites only</label>
+                  </div>
+                  <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="quizExcludeKnown" checked>
+                    <label class="form-check-label muted small" for="quizExcludeKnown">Exclude Known words</label>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                  <button class="btn btn-soft w-100" id="quizStart"><i class="bi bi-play-fill me-1"></i> Start</button>
+                  <button class="btn btn-ghost w-100" id="quizReset"><i class="bi bi-arrow-counterclockwise me-1"></i> Reset</button>
+                </div>
+
+                <hr class="divider my-3">
+                <div class="fw-bold mb-2">Lifetime Stats</div>
+                <div class="mt-2 small">
+                  <div class="d-flex justify-content-between mb-2"><span class="muted">Correct</span><span id="stC" class="fw-600">0</span></div>
+                  <div class="d-flex justify-content-between mb-2"><span class="muted">Wrong</span><span id="stW" class="fw-600">0</span></div>
+                  <div class="d-flex justify-content-between"><span class="muted">Accuracy</span><span id="stA" class="fw-600">0%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAVORITES -->
+        <div class="tab-pane d-none" id="pane-fav">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="chip"><i class="bi bi-heart-fill"></i> Favorites: <span class="muted" id="favTotal">0</span></span>
+              <span class="chip"><i class="bi bi-upload"></i> Import/Export</span>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-ghost btn-sm" id="favSpeakAll"><i class="bi bi-megaphone"></i> Speak random</button>
+              <button class="btn btn-ghost btn-sm" id="favClear"><i class="bi bi-trash"></i> Clear</button>
+            </div>
+          </div>
+
+          <div class="row g-3" id="favGrid"></div>
+
+          <hr class="divider my-3">
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <div class="glass p-3">
+                <div class="fw-bold mb-2">Export (JSON)</div>
+                <div class="muted small">Download your favorites list.</div>
+                <button class="btn btn-soft mt-3 w-100" id="favExport"><i class="bi bi-download me-1"></i> Download favorites.json</button>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="glass p-3">
+                <div class="fw-bold mb-2">Import (JSON)</div>
+                <div class="muted small">Paste favorites JSON here and import.</div>
+                <textarea class="form-control mt-2" id="favImportText" rows="4" placeholder='[{"de":"...","en":"..."}]'></textarea>
+                <button class="btn btn-soft mt-3 w-100" id="favImport"><i class="bi bi-upload me-1"></i> Import</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="tab-pane d-none" id="pane-settings">
+          <div class="row g-3">
+            <div class="col-12 col-xl-6">
+              <div class="glass p-3">
+                <div class="fw-bold mb-2">Pronunciation</div>
+                <div class="muted small">Browser SpeechSynthesis (German voice recommended).</div>
+
+                <div class="mt-3">
+                  <label class="form-label small muted mb-2 fw-600">Rate</label>
+                  <input type="range" class="form-range" min="0.6" max="1.2" step="0.05" id="rate" value="0.95">
+                  <div class="d-flex justify-content-between muted small">
+                    <span>Slow</span>
+                    <span id="rateLabel">0.95</span>
+                    <span>Fast</span>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <label class="form-label small muted mb-2 fw-600">Pitch</label>
+                  <input type="range" class="form-range" min="0.8" max="1.2" step="0.05" id="pitch" value="1.0">
+                  <div class="d-flex justify-content-between muted small">
+                    <span>Low</span>
+                    <span id="pitchLabel">1.00</span>
+                    <span>High</span>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="showBadges" checked>
+                    <label class="form-check-label muted small" for="showBadges">Show fix badges</label>
+                  </div>
+                  <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="highlightArticles" checked>
+                    <label class="form-check-label muted small" for="highlightArticles">Highlight der/die/das</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-xl-6">
+              <div class="glass p-3">
+                <div class="fw-bold mb-2">Data + Storage</div>
+                <div class="muted small">Your manual fixes, favorites, known words and quiz stats are saved in this browser.</div>
+
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <button class="btn btn-ghost" id="resetKnown"><i class="bi bi-check2-circle"></i> Reset Known</button>
+                  <button class="btn btn-ghost" id="resetFixes"><i class="bi bi-wrench"></i> Reset Fixes</button>
+                  <button class="btn btn-ghost" id="resetStats"><i class="bi bi-bar-chart"></i> Reset Stats</button>
+                  <button class="btn btn-ghost" id="resetAll"><i class="bi bi-trash3"></i> Reset ALL</button>
+                </div>
+
+                <hr class="divider my-3">
+                <div class="fw-bold mb-2">Troubleshooting</div>
+                <div class="muted small mt-2">
+                  If JSON won't load, you must run a local server:
+                  <div class="mt-2">
+                    <span class="chip"><span class="kbar">python -m http.server 8000</span></span>
+                  </div>
+                  Then open:
+                  <div class="mt-2">
+                    <span class="chip"><span class="kbar">http://localhost:8000/</span></span>
+                  </div>
+                </div>
+
+                <hr class="divider my-3">
+                <div class="fw-bold mb-2">About</div>
+                <div class="muted small mt-2">
+                  This page reads your grouped JSON format (chapters → groups → items).
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- glass -->
+    </div><!-- col -->
+  </div><!-- row -->
+</div><!-- container -->
+
+<!-- DETAILS MODAL -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content glass text-light">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">Word Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <div class="muted small fw-600">Deutsch (shown)</div>
+            <div class="fs-3 fw-bold mt-1" id="mDe">—</div>
+            <div class="mt-3 d-flex gap-2 flex-wrap">
+              <button class="btn btn-soft btn-sm" id="mSpeak"><i class="bi bi-volume-up"></i> Speak</button>
+              <button class="btn btn-ghost btn-sm" id="mCopy"><i class="bi bi-clipboard"></i> Copy</button>
+              <button class="btn btn-ghost btn-sm" id="mFav"><i class="bi bi-heart"></i> Favorite</button>
+              <button class="btn btn-ghost btn-sm" id="mKnown"><i class="bi bi-check2-circle"></i> Known</button>
+            </div>
+
+            <div class="mt-3">
+              <div class="muted small fw-600">English</div>
+              <div class="fs-5 mt-1" id="mEn">—</div>
+            </div>
+
+            <div class="mt-3">
+              <div class="muted small fw-600">Location</div>
+              <div class="small mt-1"><span class="muted">Chapter:</span> <span id="mCh">—</span></div>
+              <div class="small"><span class="muted">Group:</span> <span id="mSec">—</span></div>
+              <div class="small"><span class="muted">Title:</span> <span id="mTopic">—</span></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <div class="fw-bold mb-2">Fix missing letters (optional)</div>
+            <div class="muted small mt-1">
+              Auto-fix is applied. If any word is still wrong, correct it here and Save.
+              (Saved only in your browser.)
+            </div>
+
+            <div class="mt-3">
+              <label class="form-label small muted mb-2 fw-600">German correction</label>
+              <input id="mFix" class="form-control" placeholder="Type corrected German…">
+              <div class="d-flex gap-2 mt-2 flex-wrap">
+                <button class="btn btn-soft" id="mSaveFix"><i class="bi bi-check2 me-1"></i> Save Fix</button>
+                <button class="btn btn-ghost" id="mRemoveFix"><i class="bi bi-trash me-1"></i> Remove</button>
+              </div>
+              <div class="muted small mt-2" id="mRawNote"></div>
+            </div>
+
+            <hr class="divider my-3">
+            <div class="fw-bold mb-2">Quick actions</div>
+            <div class="muted small mt-2">
+              • Press <span class="kbar">S</span> to speak • <span class="kbar">F</span> favorite • <span class="kbar">Space</span> flip flashcard
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button class="btn btn-ghost" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content glass text-light">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">Help</h5>
+        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <div class="fw-bold mb-2">How to use</div>
+            <ul class="muted small mt-2">
+              <li>Choose a chapter and sections from the left sidebar (dropdown).</li>
+              <li>Search German or English, then click a word to pronounce.</li>
+              <li>Flashcards: flip + mark known + favorite.</li>
+              <li>Quiz: pick chapter + groups (dropdown) in Quiz Filters.</li>
+              <li>If any German letter is missing, open Details → Save Fix.</li>
+            </ul>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="fw-bold mb-2">If pronunciation doesn't work</div>
+            <div class="muted small mt-2">
+              Your system may not have a German voice installed. Try Chrome/Edge and install a German voice in OS language settings.
+            </div>
+            <hr class="divider my-3">
+            <div class="fw-bold mb-2">Local server required</div>
+            <div class="muted small mt-2">
+              Use: <span class="kbar">python -m http.server 8000</span><br/>
+              Then open: <span class="kbar">http://localhost:8000/</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button class="btn btn-ghost" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="toast" class="toast text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastBody">…</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* =========================
+   CONFIG
+========================= */
+const DATA_URL = './NWn_A1_Glossar_Deutsch-Englisch_grouped_FIXED_FINAL.json';
+
+/* =========================
+   KEYS (localStorage)
+========================= */
+const FIX_KEY   = 'a1_fix_v3';
+const FAV_KEY   = 'a1_fav_v3';
+const KNOWN_KEY = 'a1_known_v3';
+const STATS_KEY = 'a1_stats_v3';
+const SETTINGS_KEY = 'a1_settings_v3';
+const RECENT_KEY = 'a1_recent_v3';
+const QUIZ_FILTER_KEY = 'a1_quiz_filter_v1';
+
+/* =========================
+   BASIC HELPERS
+========================= */
+const $ = (id)=>document.getElementById(id);
+const toastEl = bootstrap.Toast.getOrCreateInstance($('toast'), {delay: 1200});
+function toast(msg){ $('toastBody').textContent = msg; toastEl.show(); }
+function esc(s){
+  return (s ?? '').toString()
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'","&#039;");
+}
+function loadJSON(key, fallback){
+  try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+  catch{ return fallback; }
+}
+function saveJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+function dl(filename, data, mime='application/json'){
+  const blob = new Blob([data], {type:mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+function shuffle(a){
+  const arr = a.slice();
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+function uniqBy(arr, keyFn){
+  const seen = new Set();
+  const out = [];
+  for(const x of arr){
+    const k = keyFn(x);
+    if(seen.has(k)) continue;
+    seen.add(k); out.push(x);
+  }
+  return out;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+let settings = loadJSON(SETTINGS_KEY, {
+  rate: 0.95,
+  pitch: 1.0,
+  showBadges: true,
+  highlightArticles: true,
+  viewMode: 'cards',
+  searchMode: 'contains',
+  sortMode: 'default'
+});
+function applySettingsToUI(){
+  $('rate').value = settings.rate;
+  $('pitch').value = settings.pitch;
+  $('rateLabel').textContent = (+settings.rate).toFixed(2);
+  $('pitchLabel').textContent = (+settings.pitch).toFixed(2);
+  $('showBadges').checked = !!settings.showBadges;
+  $('highlightArticles').checked = !!settings.highlightArticles;
+  $('viewMode').value = settings.viewMode;
+  $('searchMode').value = settings.searchMode;
+  $('sortMode').value = settings.sortMode;
+
+  // mobile mirrors
+  $('mViewMode').value = settings.viewMode;
+  $('mSearchMode').value = settings.searchMode;
+  $('mSortMode').value = settings.sortMode;
+}
+
+/* =========================
+   SPEECH
+========================= */
+let germanVoice = null;
+function pickGermanVoice(){
+  const voices = window.speechSynthesis?.getVoices?.() || [];
+  germanVoice = voices.find(v => (v.lang||'').toLowerCase().startsWith('de')) || null;
+  $('voiceLabel').textContent = germanVoice ? `${germanVoice.name} (${germanVoice.lang})` : 'No German voice found';
+}
+function speak(text, forceRate=null){
+  if(!text) return;
+  if(!window.speechSynthesis){ toast('Speech not supported'); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'de-DE';
+  if(germanVoice) u.voice = germanVoice;
+  u.rate = forceRate ?? settings.rate;
+  u.pitch = settings.pitch;
+  window.speechSynthesis.speak(u);
+}
+
+/* =========================
+   AUTO-FIX (light rules)
+========================= */
+const AUTO_FIX_RULES = [
+  [/\bnglisch\b/gi, 'Englisch'],
+  [/\bngarisch\b/gi, 'Ungarisch'],
+  [/\bT rkisch\b/gi, 'Türkisch'],
+  [/\bR ssisch\b/gi, 'Russisch'],
+  [/\bGl ck\b/gi, 'Glück'],
+  [/\bncht\b/gi, 'nicht'],
+  [/\bj tzt\b/gi, 'jetzt'],
+  [/\bzw lf\b/gi, 'zwölf'],
+  [/\bf nf\b/gi, 'fünf'],
+  [/\bs chs\b/gi, 'sechs'],
+  [/\bcht\b/gi, 'acht'],
+  [/\bm chen\b/gi, 'machen'],
+  [/\bspr chen\b/gi, 'sprechen'],
+  [/\bk nnen\b/gi, 'können'],
+  [/\bk nnt\b/gi, 'könnt']
+];
+function autoFix(raw){
+  let t = raw || '';
+  for(const [rx, rep] of AUTO_FIX_RULES) t = t.replace(rx, rep);
+  return t;
+}
+
+/* =========================
+   DATA NORMALIZATION
+========================= */
+function normalize(raw){
+  const chapters = Array.isArray(raw) ? raw : (raw && Array.isArray(raw.chapters) ? raw.chapters : []);
+  return chapters;
+}
+
+/* =========================
+   STATE
+========================= */
+let RAW = null;
+let CHAPTERS = [];
+let FLAT = [];
+let currentChapterIndex = 0;
+let selectedSections = new Set();
+let page = 1;
+const PAGE_SIZE = 36;
+
+let fixes = loadJSON(FIX_KEY, {});
+let favs  = loadJSON(FAV_KEY, []);
+let known = loadJSON(KNOWN_KEY, {});
+let stats = loadJSON(STATS_KEY, {c:0,w:0});
+let recent = loadJSON(RECENT_KEY, []);
+
+let quizFilter = loadJSON(QUIZ_FILTER_KEY, {
+  chapterIndex: 0,
+  sections: [],
+  useSearch: true,
+  favOnly: false,
+  excludeKnown: true
+});
+if(typeof quizFilter !== 'object' || quizFilter === null){
+  quizFilter = {chapterIndex:0, sections:[], useSearch:true, favOnly:false, excludeKnown:true};
+}
+quizFilter.useSearch = (quizFilter.useSearch !== false);
+quizFilter.favOnly = !!quizFilter.favOnly;
+quizFilter.excludeKnown = (quizFilter.excludeKnown !== false);
+
+/* =========================
+   BUILD FLAT
+========================= */
+function fixedGerman(deRaw){
+  const manual = fixes[deRaw];
+  const base = manual ? manual : autoFix(deRaw);
+  return base;
+}
+function flatten(chapters){
+  const out = [];
+  let id = 1;
+  for(const ch of chapters){
+    const chapterName = (ch.chapter ?? 'Untitled').toString();
+    const groups = Array.isArray(ch.groups) ? ch.groups : [];
+    for(const g of groups){
+      const section = (g.id ?? '').toString();
+      const topic = (g.title ?? '').toString();
+      const items = Array.isArray(g.items) ? g.items : [];
+      for(const it of items){
+        const deRaw = (it.german ?? '').toString().trim();
+        const en = (it.english ?? '').toString().trim();
+        if(!deRaw && !en) continue;
+        const de = fixedGerman(deRaw);
+        out.push({ id: id++, chapter: chapterName, section, topic, deRaw, de, en });
+      }
+    }
+  }
+  return out;
+}
+function buildMeta(flat){
+  const map = new Map();
+  for(const x of flat){
+    if(!map.has(x.chapter)) map.set(x.chapter, new Set());
+    map.get(x.chapter).add(x.section);
+  }
+  const chapters = [];
+  for(const [name, secSet] of map.entries()){
+    chapters.push({ name, sections: Array.from(secSet).sort((a,b)=>a.localeCompare(b, undefined, {numeric:true})) });
+  }
+  chapters.sort((a,b)=>a.name.localeCompare(b.name, undefined, {numeric:true}));
+  return chapters;
+}
+
+/* =========================
+   FILTERING (Browse)
+========================= */
+function matchTerm(item, term){
+  if(!term) return true;
+  const t = term.toLowerCase();
+  const de = (item.de||'').toLowerCase();
+  const en = (item.en||'').toLowerCase();
+  const raw = (item.deRaw||'').toLowerCase();
+  if(settings.searchMode === 'starts'){
+    return de.startsWith(t) || en.startsWith(t) || raw.startsWith(t);
+  }
+  return de.includes(t) || en.includes(t) || raw.includes(t);
+}
+function getPool(){
+  const chap = CHAPTERS[currentChapterIndex]?.name;
+  const term = ($('q').value || '').trim();
+  let pool = FLAT.filter(x => x.chapter === chap && selectedSections.has(x.section));
+  pool = pool.filter(x => matchTerm(x, term));
+
+  if(settings.sortMode === 'az'){
+    pool = pool.slice().sort((a,b)=>a.de.localeCompare(b.de, undefined, {numeric:true}));
+  } else if(settings.sortMode === 'za'){
+    pool = pool.slice().sort((a,b)=>b.de.localeCompare(a.de, undefined, {numeric:true}));
+  }
+  return pool;
+}
+
+/* =========================
+   FILTERING (Quiz)
+========================= */
+function getQuizPool(){
+  const chap = CHAPTERS[quizFilter.chapterIndex]?.name;
+  const term = (quizFilter.useSearch ? (($('q').value||'').trim()) : '');
+  const quizSections = new Set(quizFilter.sections || []);
+  let pool = FLAT.filter(x => x.chapter === chap && quizSections.has(x.section));
+
+  if(term) pool = pool.filter(x => matchTerm(x, term));
+  if(quizFilter.favOnly){
+    const favSet = new Set(favs.map(f=>f.deRaw));
+    pool = pool.filter(x => favSet.has(x.deRaw));
+  }
+  if(quizFilter.excludeKnown){
+    pool = pool.filter(x => !known[x.deRaw]);
+  }
+  return pool;
+}
+
+/* =========================
+   UI HELPERS (dropdown checklists)
+========================= */
+function buildSectionDropdown(menuEl, sections, selectedSet, onToggle, onAll, onNone){
+  menuEl.innerHTML = '';
+
+  const top = document.createElement('li');
+  top.className = 'px-2 pb-2';
+  top.innerHTML = `
+    <div class="d-flex gap-2">
+      <button class="btn btn-soft btn-sm w-100" data-act="all"><i class="bi bi-check2-square me-1"></i>All</button>
+      <button class="btn btn-ghost btn-sm w-100" data-act="none"><i class="bi bi-square me-1"></i>None</button>
+    </div>
+  `;
+  top.querySelector('[data-act="all"]').onclick = (e)=>{ e.preventDefault(); onAll(); };
+  top.querySelector('[data-act="none"]').onclick = (e)=>{ e.preventDefault(); onNone(); };
+  menuEl.appendChild(top);
+
+  const hr = document.createElement('li');
+  hr.innerHTML = `<hr class="dropdown-divider">`;
+  menuEl.appendChild(hr);
+
+  sections.forEach((sec, idx)=>{
+    const id = `sec_${idx}_${Math.random().toString(16).slice(2)}`;
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <div class="dropdown-item-text">
+        <div class="form-check m-0">
+          <input class="form-check-input" type="checkbox" id="${id}">
+          <label class="form-check-label small" for="${id}">${esc(sec || '(no group)')}</label>
+        </div>
+      </div>
+    `;
+    const input = li.querySelector('input');
+    input.checked = selectedSet.has(sec);
+    input.onchange = ()=> onToggle(sec, input.checked);
+    menuEl.appendChild(li);
+  });
+}
+
+/* =========================
+   UI RENDER (Chapters + Sections as dropdown)
+========================= */
+function renderChapterSelect(selectEl, activeIndex){
+  selectEl.innerHTML = '';
+  CHAPTERS.forEach((c, idx)=>{
+    const opt = document.createElement('option');
+    opt.value = idx;
+    opt.textContent = c.name;
+    if(idx === activeIndex) opt.selected = true;
+    selectEl.appendChild(opt);
+  });
+}
+
+function setChapter(idx){
+  currentChapterIndex = idx;
+  const c = CHAPTERS[currentChapterIndex];
+  selectedSections = new Set(c ? c.sections : []);
+  page = 1;
+
+  updateHeader();
+  renderSectionsDropdowns();
+  renderBrowse();
+}
+
+function renderSectionsDropdowns(){
+  const c = CHAPTERS[currentChapterIndex];
+  const secs = c ? c.sections : [];
+  $('sectionCount').textContent = selectedSections.size;
+  $('mSectionCount').textContent = selectedSections.size;
+
+  const onToggle = (sec, checked)=>{
+    if(checked) selectedSections.add(sec);
+    else selectedSections.delete(sec);
+    page = 1;
+    $('sectionCount').textContent = selectedSections.size;
+    $('mSectionCount').textContent = selectedSections.size;
+    renderBrowse(); updateHeader();
+  };
+  const onAll = ()=>{
+    selectedSections = new Set(secs);
+    $('sectionCount').textContent = selectedSections.size;
+    $('mSectionCount').textContent = selectedSections.size;
+    page=1; renderBrowse(); updateHeader(); renderSectionsDropdowns();
+  };
+  const onNone = ()=>{
+    selectedSections = new Set();
+    $('sectionCount').textContent = 0;
+    $('mSectionCount').textContent = 0;
+    page=1; renderBrowse(); updateHeader(); renderSectionsDropdowns();
+  };
+
+  buildSectionDropdown($('sectionDropdownMenu'), secs, selectedSections, onToggle, onAll, onNone);
+  buildSectionDropdown($('mSectionDropdownMenu'), secs, selectedSections, onToggle, onAll, onNone);
+}
+
+function updateTopStats(){
+  const pool = getPool();
+  $('resultCount').textContent = pool.length;
+  $('favCount').textContent = favs.length;
+  const knownInPool = pool.filter(x => known[x.deRaw]).length;
+  $('knownCount').textContent = knownInPool;
+}
+function updateHeader(){
+  const chap = CHAPTERS[currentChapterIndex]?.name || '—';
+  const term = ($('q').value||'').trim();
+  $('title').textContent = chap;
+  $('subtitle').textContent = `Selected groups: ${selectedSections.size} • Search: ${term ? `"${term}"` : 'none'}`;
+  updateMobileSubtitle();
+}
+function formatDE(de){
+  if(!settings.highlightArticles) return esc(de);
+  const m = de.match(/^(der|die|das)\s+/i);
+  if(!m) return esc(de);
+  const art = m[1];
+  const rest = de.slice(m[0].length);
+  return `<span class="article">${esc(art)}</span> ${esc(rest)}`;
+}
+function isFixed(item){
+  const manual = fixes[item.deRaw];
+  if(manual && manual.trim() && manual.trim() !== item.deRaw) return 'manual';
+  const af = autoFix(item.deRaw);
+  if(af !== item.deRaw) return 'auto';
+  return 'ok';
+}
+function favHas(deRaw){ return favs.some(x => x.deRaw === deRaw); }
+function toggleFav(item){
+  if(favHas(item.deRaw)){
+    favs = favs.filter(x => x.deRaw !== item.deRaw);
+    saveJSON(FAV_KEY, favs);
+    toast('Removed from favorites');
+  } else {
+    favs.push({deRaw:item.deRaw, de:item.de, en:item.en});
+    favs = uniqBy(favs, x=>x.deRaw);
+    saveJSON(FAV_KEY, favs);
+    toast('Added to favorites');
+  }
+  renderFavorites();
+  updateTopStats();
+  renderQuizFilters();
+  updateQuizPoolCount();
+}
+function setKnown(item, val=true){
+  if(val) known[item.deRaw] = true;
+  else delete known[item.deRaw];
+  saveJSON(KNOWN_KEY, known);
+  updateTopStats();
+  updateFlashProgress();
+  updateQuizPoolCount();
+}
+function addRecent(item){
+  const rec = {de:item.de, en:item.en, ts: Date.now(), deRaw:item.deRaw};
+  recent.unshift(rec);
+  recent = recent.slice(0, 50);
+  saveJSON(RECENT_KEY, recent);
+  $('recentCount').textContent = recent.length;
+}
+function renderBrowse(){
+  const pool = getPool();
+  const total = pool.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  page = clamp(page, 1, totalPages);
+
+  const start = (page-1) * PAGE_SIZE;
+  const slice = pool.slice(start, start + PAGE_SIZE);
+
+  $('pageInfo').textContent = total ? `Showing ${start+1}-${Math.min(start+PAGE_SIZE,total)} of ${total} • Page ${page}/${totalPages}` : 'No results';
+
+  if(settings.viewMode === 'table'){
+    $('browseCards').classList.add('d-none');
+    $('browseTable').classList.remove('d-none');
+  } else {
+    $('browseTable').classList.add('d-none');
+    $('browseCards').classList.remove('d-none');
+  }
+
+  const grid = $('browseCards');
+  grid.innerHTML = '';
+  for(const item of slice){
+    const status = isFixed(item);
+    const showBadge = settings.showBadges;
+    const badge = !showBadge ? '' : (status==='ok'
+      ? `<span class="badge badge-ok ms-2">ok</span>`
+      : `<span class="badge badge-fix ms-2">${status} fix</span>`
+    );
+    const favIcon = favHas(item.deRaw) ? 'bi-heart-fill' : 'bi-heart';
+    const knownIcon = known[item.deRaw] ? 'bi-check2-circle' : 'bi-circle';
+
+    const col = document.createElement('div');
+    col.className = 'col-12 col-md-6 col-xl-4';
+    col.innerHTML = `
+      <div class="word-card">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+          <div style="min-width:0">
+            <div class="de">${formatDE(item.de)}${badge}</div>
+            <div class="en mt-2">${esc(item.en)}</div>
+            <div class="muted small mt-2">${esc(item.section)} • ${esc(item.topic||'')}</div>
+          </div>
+          <div class="d-flex flex-column gap-2">
+            <button class="btn btn-soft btn-sm" data-act="speak" title="Pronounce"><i class="bi bi-volume-up"></i></button>
+            <button class="btn btn-ghost btn-sm" data-act="fav" title="Favorite"><i class="bi ${favIcon}"></i></button>
+            <button class="btn btn-ghost btn-sm" data-act="known" title="Known"><i class="bi ${knownIcon}"></i></button>
+            <button class="btn btn-ghost btn-sm" data-act="details" title="Details"><i class="bi bi-info-circle"></i></button>
+          </div>
+        </div>
+      </div>
+    `;
+    col.querySelector('[data-act="speak"]').onclick = ()=> { speak(item.de); addRecent(item); };
+    col.querySelector('[data-act="fav"]').onclick = ()=> { toggleFav(item); renderBrowse(); };
+    col.querySelector('[data-act="known"]').onclick = ()=> { setKnown(item, !known[item.deRaw]); renderBrowse(); };
+    col.querySelector('[data-act="details"]').onclick = ()=> openDetails(item);
+    grid.appendChild(col);
+  }
+
+  const tbody = $('tbody');
+  tbody.innerHTML = '';
+  for(const item of slice){
+    const status = isFixed(item);
+    const showBadge = settings.showBadges;
+    const badge = !showBadge ? '' : (status==='ok'
+      ? `<span class="badge badge-ok ms-2">ok</span>`
+      : `<span class="badge badge-fix ms-2">${status} fix</span>`
+    );
+    const favIcon = favHas(item.deRaw) ? 'bi-heart-fill' : 'bi-heart';
+    const knownIcon = known[item.deRaw] ? 'bi-check2-circle' : 'bi-circle';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="fw-bold">${formatDE(item.de)}${badge}</div><div class="muted small mt-1">${esc(item.section)} • ${esc(item.topic||'')}</div></td>
+      <td>${esc(item.en)}</td>
+      <td>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-soft btn-sm" data-act="speak"><i class="bi bi-volume-up"></i></button>
+          <button class="btn btn-ghost btn-sm" data-act="fav"><i class="bi ${favIcon}"></i></button>
+          <button class="btn btn-ghost btn-sm" data-act="known"><i class="bi ${knownIcon}"></i></button>
+          <button class="btn btn-ghost btn-sm" data-act="details"><i class="bi bi-info-circle"></i></button>
+        </div>
+      </td>
+    `;
+    tr.querySelector('[data-act="speak"]').onclick = ()=> { speak(item.de); addRecent(item); };
+    tr.querySelector('[data-act="fav"]').onclick = ()=> { toggleFav(item); renderBrowse(); };
+    tr.querySelector('[data-act="known"]').onclick = ()=> { setKnown(item, !known[item.deRaw]); renderBrowse(); };
+    tr.querySelector('[data-act="details"]').onclick = ()=> openDetails(item);
+    tbody.appendChild(tr);
+  }
+
+  $('favTotal').textContent = favs.length;
+  $('chipTotal').textContent = FLAT.length;
+  $('mChipTotal').textContent = FLAT.length;
+
+  updateTopStats();
+  updateFlashProgress();
+  updateQuizPoolCount();
+}
+
+/* =========================
+   FAVORITES
+========================= */
+function renderFavorites(){
+  $('favTotal').textContent = favs.length;
+  $('favCount').textContent = favs.length;
+  const grid = $('favGrid');
+  grid.innerHTML = '';
+  if(!favs.length){
+    grid.innerHTML = `<div class="muted">No favorites yet. Click the heart icon on any word.</div>`;
+    return;
+  }
+  for(const f of favs.slice().reverse()){
+    const item = {deRaw:f.deRaw, de:f.de, en:f.en};
+    const col = document.createElement('div');
+    col.className = 'col-12 col-md-6 col-xl-4';
+    col.innerHTML = `
+      <div class="word-card">
+        <div class="d-flex justify-content-between gap-2">
+          <div style="min-width:0">
+            <div class="de">${formatDE(item.de)}</div>
+            <div class="en mt-2">${esc(item.en)}</div>
+          </div>
+          <div class="d-flex flex-column gap-2">
+            <button class="btn btn-soft btn-sm" data-act="speak"><i class="bi bi-volume-up"></i></button>
+            <button class="btn btn-ghost btn-sm" data-act="rm"><i class="bi bi-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    `;
+    col.querySelector('[data-act="speak"]').onclick = ()=> speak(item.de);
+    col.querySelector('[data-act="rm"]').onclick = ()=> { favs = favs.filter(x=>x.deRaw!==item.deRaw); saveJSON(FAV_KEY, favs); renderFavorites(); updateTopStats(); updateQuizPoolCount(); };
+    grid.appendChild(col);
+  }
+}
+
+/* =========================
+   FLASHCARDS
+========================= */
+let fcMode = 'de2en';
+let fcCurrent = null;
+let fcBackShown = false;
+function updateFlashDeck(){
+  const pool = getPool().filter(x=>x.de && x.en);
+  $('fcDeckSize').textContent = pool.length;
+  return pool;
+}
+function updateFlashProgress(){
+  const pool = getPool();
+  const total = pool.length || 1;
+  const k = pool.filter(x=>known[x.deRaw]).length;
+  const pct = Math.round((k/total)*100);
+  $('fcProg').style.width = pct + '%';
+}
+function setFlashCard(item){
+  fcCurrent = item;
+  fcBackShown = false;
+  $('fcBack').classList.add('d-none');
+
+  if(fcMode === 'de2en'){
+    $('fcModeLabel').textContent = 'DE → EN';
+    $('fcFront').textContent = item.de;
+    $('fcBack').textContent = item.en;
+  } else {
+    $('fcModeLabel').textContent = 'EN → DE';
+    $('fcFront').textContent = item.en;
+    $('fcBack').textContent = item.de;
+  }
+}
+function newFlashCard(){
+  const pool = updateFlashDeck();
+  if(!pool.length){ toast('No words in current filter. Select more groups.'); return; }
+  const item = pool[Math.floor(Math.random()*pool.length)];
+  setFlashCard(item);
+}
+function flipFlash(){
+  if(!fcCurrent) return;
+  fcBackShown = !fcBackShown;
+  $('fcBack').classList.toggle('d-none', !fcBackShown);
+}
+function speakFlash(){
+  if(!fcCurrent) return;
+  speak(fcCurrent.de);
+  addRecent(fcCurrent);
+}
+function favFlash(){
+  if(!fcCurrent) return;
+  toggleFav(fcCurrent);
+}
+function knownFlash(){
+  if(!fcCurrent) return;
+  setKnown(fcCurrent, !known[fcCurrent.deRaw]);
+  updateFlashProgress();
+  toast(known[fcCurrent.deRaw] ? 'Marked known' : 'Unmarked known');
+}
+
+/* =========================
+   QUIZ FILTERS UI (compact)
+========================= */
+function renderQuizFilters(){
+  renderChapterSelect($('quizChapterSelect'), quizFilter.chapterIndex);
+
+  const chap = CHAPTERS[quizFilter.chapterIndex];
+  const secs = chap ? chap.sections : [];
+  const selected = new Set(quizFilter.sections || []);
+
+  const onToggle = (sec, checked)=>{
+    if(checked) selected.add(sec);
+    else selected.delete(sec);
+    quizFilter.sections = Array.from(selected);
+    saveJSON(QUIZ_FILTER_KEY, quizFilter);
+    $('quizSectionCount').textContent = quizFilter.sections.length;
+    updateQuizPoolCount();
+  };
+  const onAll = ()=>{
+    quizFilter.sections = secs.slice();
+    saveJSON(QUIZ_FILTER_KEY, quizFilter);
+    $('quizSectionCount').textContent = quizFilter.sections.length;
+    renderQuizFilters();
+    updateQuizPoolCount();
+  };
+  const onNone = ()=>{
+    quizFilter.sections = [];
+    saveJSON(QUIZ_FILTER_KEY, quizFilter);
+    $('quizSectionCount').textContent = 0;
+    renderQuizFilters();
+    updateQuizPoolCount();
+  };
+
+  $('quizSectionCount').textContent = (quizFilter.sections || []).length;
+  buildSectionDropdown($('quizSectionDropdownMenu'), secs, selected, onToggle, onAll, onNone);
+
+  $('quizUseSearch').checked = !!quizFilter.useSearch;
+  $('quizFavOnly').checked = !!quizFilter.favOnly;
+  $('quizExcludeKnown').checked = !!quizFilter.excludeKnown;
+}
+function updateQuizPoolCount(){
+  const pool = getQuizPool().filter(x=>x.de && x.en);
+  $('quizPoolCount').textContent = pool.length;
+}
+function syncQuizFromBrowse(){
+  quizFilter.chapterIndex = currentChapterIndex;
+  quizFilter.sections = Array.from(selectedSections);
+  saveJSON(QUIZ_FILTER_KEY, quizFilter);
+  renderQuizFilters();
+  updateQuizPoolCount();
+  toast('Quiz filters synced from Browse');
+}
+
+/* =========================
+   QUIZ
+========================= */
+let quiz = { qs:[], i:0, score:0, locked:false, type:'de2en' };
+function statsUI(){
+  const total = stats.c + stats.w;
+  const acc = total ? Math.round((stats.c/total)*100) : 0;
+  $('stC').textContent = stats.c;
+  $('stW').textContent = stats.w;
+  $('stA').textContent = acc + '%';
+}
+function buildQuiz(pool, n, type){
+  const clean = pool.filter(x=>x.de && x.en);
+  if(clean.length < 4) return [];
+  const picked = shuffle(clean).slice(0, Math.min(n, clean.length));
+  return picked.map(correct=>{
+    let prompt, correctAns;
+    if(type === 'en2de'){
+      prompt = correct.en;
+      correctAns = correct.de;
+    } else {
+      prompt = correct.de;
+      correctAns = correct.en;
+    }
+    const wrongBase = clean.filter(x=>x.id !== correct.id);
+    const wrong = shuffle(wrongBase).slice(0,3).map(x=> type==='en2de' ? x.de : x.en);
+    const options = shuffle([correctAns, ...wrong]);
+    return { prompt, correct: correctAns, options, de: correct.de, en: correct.en };
+  });
+}
+function renderQuiz(){
+  $('qIdx').textContent = quiz.qs.length ? (quiz.i+1) : 0;
+  $('qTotal').textContent = quiz.qs.length;
+  $('qScore').textContent = quiz.score;
+
+  const answers = $('answers');
+  answers.innerHTML = '';
+
+  if(!quiz.qs.length){
+    $('quizWord').textContent = '—';
+    $('quizMsg').textContent = 'Press Start.';
+    return;
+  }
+
+  const q = quiz.qs[quiz.i];
+  $('quizPrompt').textContent = (quiz.type==='en2de') ? 'German for:' : 'Meaning of:';
+  $('quizWord').textContent = q.prompt;
+  $('quizMsg').textContent = 'Choose the correct answer.';
+
+  if(quiz.type === 'listen'){
+    $('quizPrompt').textContent = 'Listen and choose the meaning:';
+    $('quizWord').textContent = '🔊';
+    speak(q.de);
+  }
+
+  q.options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-ghost';
+    btn.style.textAlign = 'left';
+    btn.textContent = opt;
+    btn.onclick = ()=> answerQuiz(opt);
+    answers.appendChild(btn);
+  });
+
+  quiz.locked = false;
+}
+function answerQuiz(choice){
+  if(quiz.locked) return;
+  quiz.locked = true;
+
+  const q = quiz.qs[quiz.i];
+  const buttons = Array.from(document.querySelectorAll('#answers button'));
+  buttons.forEach(b=>{
+    if(b.textContent === q.correct){
+      b.style.borderColor = 'rgba(46,204,113,.6)';
+      b.style.background = 'rgba(46,204,113,.15)';
+    }
+    if(b.textContent === choice && choice !== q.correct){
+      b.style.borderColor = 'rgba(231,76,60,.6)';
+      b.style.background = 'rgba(231,76,60,.15)';
+    }
+    b.disabled = true;
+  });
+
+  if(choice === q.correct){
+    quiz.score++;
+    stats.c++;
+    $('quizMsg').innerHTML = `<span style="color:var(--good)">✓ Correct!</span>`;
+  } else {
+    stats.w++;
+    $('quizMsg').innerHTML = `<span style="color:var(--bad)">✗ Wrong.</span> Correct: <b>${esc(q.correct)}</b>`;
+  }
+  saveJSON(STATS_KEY, stats);
+  statsUI();
+
+  speak(q.de);
+
+  setTimeout(()=>{
+    quiz.i++;
+    if(quiz.i >= quiz.qs.length){
+      $('quizMsg').innerHTML = `Finished! Score: <b>${quiz.score}/${quiz.qs.length}</b>. Press Start again.`;
+      return;
+    }
+    renderQuiz();
+  }, 900);
+}
+
+/* =========================
+   DETAILS MODAL
+========================= */
+let DETAILS_ITEM = null;
+const detailsModal = new bootstrap.Modal($('detailsModal'));
+function openDetails(item){
+  DETAILS_ITEM = item;
+  $('mDe').textContent = item.de || '—';
+  $('mEn').textContent = item.en || '—';
+  $('mCh').textContent = item.chapter || '—';
+  $('mSec').textContent = item.section || '—';
+  $('mTopic').textContent = item.topic || '—';
+
+  const status = isFixed(item);
+  const noteParts = [];
+  if(status === 'manual') noteParts.push('Manual fix is applied.');
+  if(status === 'auto') noteParts.push(`Auto-fix changed raw: "${item.deRaw}"`);
+  if(status === 'ok') noteParts.push('No fix needed.');
+  $('mRawNote').textContent = noteParts.join(' ');
+
+  $('mFix').value = fixes[item.deRaw] ? fixes[item.deRaw] : item.de;
+  $('mFav').innerHTML = favHas(item.deRaw) ? `<i class="bi bi-heart-fill me-1"></i> Favorited` : `<i class="bi bi-heart me-1"></i> Favorite`;
+  $('mKnown').innerHTML = known[item.deRaw] ? `<i class="bi bi-check2-circle me-1"></i> Known` : `<i class="bi bi-circle me-1"></i> Mark known`;
+
+  detailsModal.show();
+}
+$('mSpeak').onclick = ()=> DETAILS_ITEM && speak(DETAILS_ITEM.de);
+$('mCopy').onclick = ()=> DETAILS_ITEM && navigator.clipboard?.writeText?.(`${DETAILS_ITEM.de} — ${DETAILS_ITEM.en}`).then(()=>toast('Copied!'));
+$('mFav').onclick = ()=> DETAILS_ITEM && toggleFav(DETAILS_ITEM);
+$('mKnown').onclick = ()=> {
+  if(!DETAILS_ITEM) return;
+  setKnown(DETAILS_ITEM, !known[DETAILS_ITEM.deRaw]);
+  $('mKnown').innerHTML = known[DETAILS_ITEM.deRaw] ? `<i class="bi bi-check2-circle me-1"></i> Known` : `<i class="bi bi-circle me-1"></i> Mark known`;
+  renderBrowse();
+};
+$('mSaveFix').onclick = ()=>{
+  if(!DETAILS_ITEM) return;
+  const raw = DETAILS_ITEM.deRaw;
+  const val = ($('mFix').value || '').trim();
+  if(!raw) return;
+  fixes[raw] = val || raw;
+  saveJSON(FIX_KEY, fixes);
+
+  FLAT = flatten(CHAPTERS_RAW);
+  CHAPTERS = buildMeta(FLAT);
+  toast('Saved fix!');
+  renderBrowse();
+  renderFavorites();
+  renderQuizFilters();
+  updateQuizPoolCount();
+};
+$('mRemoveFix').onclick = ()=>{
+  if(!DETAILS_ITEM) return;
+  const raw = DETAILS_ITEM.deRaw;
+  delete fixes[raw];
+  saveJSON(FIX_KEY, fixes);
+  FLAT = flatten(CHAPTERS_RAW);
+  CHAPTERS = buildMeta(FLAT);
+  toast('Removed fix!');
+  renderBrowse();
+  renderQuizFilters();
+  updateQuizPoolCount();
+};
+
+/* =========================
+   HELP MODAL
+========================= */
+const helpModal = new bootstrap.Modal($('helpModal'));
+$('openHelp').onclick = ()=> helpModal.show();
+
+/* =========================
+   TABS
+========================= */
+function showTab(tab){
+  for(const id of ['browse','flash','quiz','fav','settings']){
+    $('pane-'+id).classList.toggle('d-none', id !== tab);
+    const btn = document.querySelector(`[data-tab="${id}"]`);
+    btn.classList.toggle('active', id !== tab ? false : true);
+  }
+  if(tab === 'fav') renderFavorites();
+  if(tab === 'flash' && !fcCurrent) newFlashCard();
+  if(tab === 'quiz'){ renderQuizFilters(); updateQuizPoolCount(); renderQuiz(); }
+}
+document.querySelectorAll('#tabs button').forEach(b=>{
+  b.onclick = ()=> showTab(b.getAttribute('data-tab'));
+});
+
+/* =========================
+   EVENTS (Desktop sidebar + Browse)
+========================= */
+$('clearBtn').onclick = ()=> { $('q').value=''; $('mq').value=''; page=1; renderBrowse(); updateHeader(); updateQuizPoolCount(); };
+$('q').addEventListener('input', ()=> { $('mq').value = $('q').value; page=1; renderBrowse(); updateHeader(); updateQuizPoolCount(); });
+
+$('searchMode').onchange = (e)=>{ settings.searchMode = e.target.value; $('mSearchMode').value = settings.searchMode; saveJSON(SETTINGS_KEY, settings); renderBrowse(); updateQuizPoolCount(); };
+$('sortMode').onchange = (e)=>{ settings.sortMode = e.target.value; $('mSortMode').value = settings.sortMode; saveJSON(SETTINGS_KEY, settings); renderBrowse(); };
+$('viewMode').onchange = (e)=>{ settings.viewMode = e.target.value; $('mViewMode').value = settings.viewMode; saveJSON(SETTINGS_KEY, settings); renderBrowse(); };
+
+$('randomSpeakBtn').onclick = ()=>{
+  const pool = getPool();
+  if(!pool.length) return toast('No words in filter.');
+  const item = pool[Math.floor(Math.random()*pool.length)];
+  speak(item.de);
+  addRecent(item);
+};
+
+$('prevBtn').onclick = ()=> { page = Math.max(1, page-1); renderBrowse(); };
+$('nextBtn').onclick = ()=>{
+  const total = getPool().length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  page = Math.min(totalPages, page+1);
+  renderBrowse();
+};
+
+$('allSectionsBtn').onclick = ()=>{
+  const ch = CHAPTERS[currentChapterIndex];
+  if(!ch) return;
+  const all = (selectedSections.size === ch.sections.length);
+  selectedSections = all ? new Set() : new Set(ch.sections);
+  $('sectionCount').textContent = selectedSections.size;
+  $('mSectionCount').textContent = selectedSections.size;
+  page = 1;
+  renderSectionsDropdowns();
+  renderBrowse();
+  updateHeader();
+};
+
+$('markKnownBtn').onclick = ()=>{
+  const pool = getPool();
+  const totalPages = Math.max(1, Math.ceil(pool.length / PAGE_SIZE));
+  page = clamp(page,1,totalPages);
+  const start = (page-1)*PAGE_SIZE;
+  const slice = pool.slice(start, start+PAGE_SIZE);
+  slice.forEach(x=> known[x.deRaw]=true);
+  saveJSON(KNOWN_KEY, known);
+  toast('Marked page as Known');
+  renderBrowse();
+  updateQuizPoolCount();
+};
+
+$('exportFavBtn').onclick = ()=> dl('favorites.json', JSON.stringify(favs, null, 2));
+
+$('stopVoiceBtn').onclick = ()=> window.speechSynthesis?.cancel?.();
+$('speakSlowBtn').onclick = ()=> { const last = recent[0]; if(last?.de) speak(last.de, 0.75); else toast('Speak a word first'); };
+$('speakNormalBtn').onclick = ()=> { const last = recent[0]; if(last?.de) speak(last.de, settings.rate); else toast('Speak a word first'); };
+
+/* =========================
+   MOBILE FILTER EVENTS (sync to desktop state)
+========================= */
+$('mClearBtn').onclick = ()=> $('clearBtn').click();
+$('mRandomSpeakBtn').onclick = ()=> $('randomSpeakBtn').click();
+
+$('mq').addEventListener('input', ()=>{
+  $('q').value = $('mq').value;
+  page=1; renderBrowse(); updateHeader(); updateQuizPoolCount();
+});
+$('mSearchMode').onchange = (e)=>{ $('searchMode').value = e.target.value; $('searchMode').dispatchEvent(new Event('change')); };
+$('mSortMode').onchange = (e)=>{ $('sortMode').value = e.target.value; $('sortMode').dispatchEvent(new Event('change')); };
+$('mViewMode').onchange = (e)=>{ $('viewMode').value = e.target.value; $('viewMode').dispatchEvent(new Event('change')); };
+
+$('mAllSectionsBtn').onclick = ()=> $('allSectionsBtn').click();
+
+/* =========================
+   FAVORITES TAB
+========================= */
+$('favExport').onclick = ()=> dl('favorites.json', JSON.stringify(favs, null, 2));
+$('favImport').onclick = ()=>{
+  try{
+    const parsed = JSON.parse($('favImportText').value || '[]');
+    if(!Array.isArray(parsed)) throw new Error('Not an array');
+    const merged = [...favs, ...parsed.map(x=>({deRaw:x.deRaw||x.de||'', de:x.de||x.german||'', en:x.en||x.english||''}))];
+    favs = uniqBy(merged.filter(x=>x.deRaw || x.de), x=>x.deRaw || x.de);
+    favs = favs.map(x=>({deRaw: x.deRaw || x.de, de:x.de, en:x.en}));
+    saveJSON(FAV_KEY, favs);
+    $('favImportText').value = '';
+    toast('Imported favorites');
+    renderFavorites();
+    updateTopStats();
+    updateQuizPoolCount();
+  } catch(e){
+    toast('Import failed: invalid JSON');
+  }
+};
+$('favSpeakAll').onclick = ()=>{
+  if(!favs.length) return toast('No favorites.');
+  const f = favs[Math.floor(Math.random()*favs.length)];
+  speak(f.de);
+};
+$('favClear').onclick = ()=>{
+  favs = [];
+  saveJSON(FAV_KEY, favs);
+  toast('Favorites cleared');
+  renderFavorites();
+  updateTopStats();
+  updateQuizPoolCount();
+};
+
+/* =========================
+   FLASHCARDS EVENTS
+========================= */
+$('flashCard').onclick = flipFlash;
+$('fcFlip').onclick = flipFlash;
+$('fcSpeak').onclick = speakFlash;
+$('fcFav').onclick = favFlash;
+$('fcKnown').onclick = knownFlash;
+$('fcNew').onclick = newFlashCard;
+$('fcToggleMode').onclick = ()=>{
+  fcMode = (fcMode === 'de2en') ? 'en2de' : 'de2en';
+  if(fcCurrent) setFlashCard(fcCurrent);
+};
+
+/* =========================
+   QUIZ EVENTS
+========================= */
+$('quizN').oninput = ()=> $('quizNLabel').textContent = $('quizN').value;
+
+$('quizUseSearch').onchange = (e)=>{ quizFilter.useSearch = e.target.checked; saveJSON(QUIZ_FILTER_KEY, quizFilter); updateQuizPoolCount(); };
+$('quizFavOnly').onchange = (e)=>{ quizFilter.favOnly = e.target.checked; saveJSON(QUIZ_FILTER_KEY, quizFilter); updateQuizPoolCount(); };
+$('quizExcludeKnown').onchange = (e)=>{ quizFilter.excludeKnown = e.target.checked; saveJSON(QUIZ_FILTER_KEY, quizFilter); updateQuizPoolCount(); };
+
+$('quizAllSections').onclick = ()=>{
+  const chap = CHAPTERS[quizFilter.chapterIndex];
+  if(!chap) return;
+  quizFilter.sections = chap.sections.slice();
+  saveJSON(QUIZ_FILTER_KEY, quizFilter);
+  renderQuizFilters();
+  updateQuizPoolCount();
+};
+$('quizNoneSections').onclick = ()=>{
+  quizFilter.sections = [];
+  saveJSON(QUIZ_FILTER_KEY, quizFilter);
+  renderQuizFilters();
+  updateQuizPoolCount();
+};
+
+$('quizSyncFromBrowse').onclick = syncQuizFromBrowse;
+$('quizRecalc').onclick = ()=> { updateQuizPoolCount(); toast('Pool refreshed'); };
+
+$('quizStart').onclick = ()=>{
+  const pool = getQuizPool();
+  const n = parseInt($('quizN').value, 10) || 10;
+  quiz.type = $('quizType').value;
+
+  const buildType = (quiz.type === 'listen') ? 'de2en' : quiz.type;
+  quiz.qs = buildQuiz(pool, n, buildType);
+
+  quiz.i = 0; quiz.score = 0; quiz.locked = false;
+  if(!quiz.qs.length) return toast('Not enough words in quiz pool. Select more sections.');
+  renderQuiz();
+  toast('Quiz started');
+};
+$('quizReset').onclick = ()=>{
+  quiz = { qs:[], i:0, score:0, locked:false, type:$('quizType').value };
+  renderQuiz();
+  toast('Quiz reset');
+};
+$('quizSpeak').onclick = ()=>{
+  const q = quiz.qs[quiz.i];
+  if(!q) return;
+  speak(q.de);
+};
+
+$('quizChapterSelect').onchange = (e)=>{
+  quizFilter.chapterIndex = parseInt(e.target.value, 10) || 0;
+  const chap = CHAPTERS[quizFilter.chapterIndex];
+  quizFilter.sections = chap ? chap.sections.slice() : [];
+  saveJSON(QUIZ_FILTER_KEY, quizFilter);
+  renderQuizFilters();
+  updateQuizPoolCount();
+  toast('Quiz chapter changed');
+};
+
+/* =========================
+   SETTINGS EVENTS
+========================= */
+$('rate').oninput = (e)=>{ settings.rate = parseFloat(e.target.value); $('rateLabel').textContent = settings.rate.toFixed(2); saveJSON(SETTINGS_KEY, settings); };
+$('pitch').oninput = (e)=>{ settings.pitch = parseFloat(e.target.value); $('pitchLabel').textContent = settings.pitch.toFixed(2); saveJSON(SETTINGS_KEY, settings); };
+$('showBadges').onchange = (e)=>{ settings.showBadges = e.target.checked; saveJSON(SETTINGS_KEY, settings); renderBrowse(); };
+$('highlightArticles').onchange = (e)=>{ settings.highlightArticles = e.target.checked; saveJSON(SETTINGS_KEY, settings); renderBrowse(); };
+
+$('resetKnown').onclick = ()=>{ known={}; saveJSON(KNOWN_KEY, known); toast('Known reset'); renderBrowse(); updateQuizPoolCount(); };
+$('resetFixes').onclick = ()=>{ fixes={}; saveJSON(FIX_KEY, fixes); toast('Fixes reset'); FLAT = flatten(CHAPTERS_RAW); renderBrowse(); renderQuizFilters(); updateQuizPoolCount(); };
+$('resetStats').onclick = ()=>{ stats={c:0,w:0}; saveJSON(STATS_KEY, stats); toast('Stats reset'); statsUI(); };
+$('resetAll').onclick = ()=>{
+  fixes={}; favs=[]; known={}; stats={c:0,w:0}; recent=[];
+  saveJSON(FIX_KEY, fixes); saveJSON(FAV_KEY, favs); saveJSON(KNOWN_KEY, known); saveJSON(STATS_KEY, stats); saveJSON(RECENT_KEY, recent);
+  toast('All reset'); renderBrowse(); renderFavorites(); statsUI(); updateQuizPoolCount();
+};
+
+/* =========================
+   KEYBOARD SHORTCUTS
+========================= */
+document.addEventListener('keydown', (e)=>{
+  const tag = (e.target.tagName||'').toLowerCase();
+  if(['input','textarea','select'].includes(tag)) return;
+
+  if(e.key === '/'){ e.preventDefault(); $('q').focus(); return; }
+  if(e.key.toLowerCase() === 'q'){ showTab('quiz'); return; }
+  if(e.key.toLowerCase() === 'c'){ showTab('flash'); if(!fcCurrent) newFlashCard(); return; }
+  if(e.key === ' '){
+    const isFlash = !$('pane-flash').classList.contains('d-none');
+    if(isFlash){ e.preventDefault(); flipFlash(); return; }
+  }
+  if(e.key.toLowerCase() === 's'){
+    const isFlash = !$('pane-flash').classList.contains('d-none');
+    if(isFlash && fcCurrent) { speakFlash(); return; }
+    const last = recent[0];
+    if(last?.de) speak(last.de);
+    return;
+  }
+  if(e.key.toLowerCase() === 'f'){
+    const isFlash = !$('pane-flash').classList.contains('d-none');
+    if(isFlash && fcCurrent) { favFlash(); return; }
+  }
+});
+
+/* =========================
+   MOBILE UI
+========================= */
+function updateMobileSubtitle(){
+  const sub = $('mobileSubtitle');
+  if(!sub) return;
+  const chap = CHAPTERS[currentChapterIndex]?.name || '—';
+  const term = ($('q').value||'').trim();
+  sub.textContent = `${chap} • ${selectedSections.size} groups` + (term ? ` • "${term}"` : '');
+}
+function wireBottomNav(){
+  const btns = Array.from(document.querySelectorAll('.bottom-nav [data-mtab]'));
+  btns.forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const tab = b.getAttribute('data-mtab');
+      showTab(tab);
+      btns.forEach(x=>x.classList.toggle('active', x===b));
+    });
+  });
+}
+function wireMobileSpeakLast(){
+  $('mobileSpeakLast').onclick = ()=>{
+    const last = recent[0];
+    if(last?.de) speak(last.de);
+    else toast('Speak a word first');
+  };
+}
+
+/* =========================
+   INIT LOAD
+========================= */
+let CHAPTERS_RAW = [];
+async function init(){
+  applySettingsToUI();
+  $('quizNLabel').textContent = $('quizN').value;
+  $('recentCount').textContent = recent.length;
+  statsUI();
+
+  pickGermanVoice();
+  window.speechSynthesis?.addEventListener?.('voiceschanged', pickGermanVoice);
+
+  try{
+    const res = await fetch(DATA_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    RAW = await res.json();
+    CHAPTERS_RAW = normalize(RAW);
+
+    FLAT = flatten(CHAPTERS_RAW);
+    CHAPTERS = buildMeta(FLAT);
+
+    $('chipTotal').textContent = FLAT.length;
+    $('mChipTotal').textContent = FLAT.length;
+
+    currentChapterIndex = 0;
+    selectedSections = new Set(CHAPTERS[0] ? CHAPTERS[0].sections : []);
+
+    renderChapterSelect($('chapterSelect'), currentChapterIndex);
+    renderChapterSelect($('mChapterSelect'), currentChapterIndex);
+
+    $('chapterSelect').onchange = (e)=>{
+      const idx = parseInt(e.target.value, 10) || 0;
+      $('mChapterSelect').value = idx;
+      setChapter(idx);
+    };
+    $('mChapterSelect').onchange = (e)=>{
+      const idx = parseInt(e.target.value, 10) || 0;
+      $('chapterSelect').value = idx;
+      setChapter(idx);
+    };
+
+    if(!Array.isArray(quizFilter.sections) || quizFilter.sections.length === 0){
+      quizFilter.chapterIndex = 0;
+      quizFilter.sections = CHAPTERS[0] ? CHAPTERS[0].sections.slice() : [];
+      saveJSON(QUIZ_FILTER_KEY, quizFilter);
+    }
+    quizFilter.chapterIndex = clamp(quizFilter.chapterIndex || 0, 0, Math.max(0, CHAPTERS.length-1));
+    const qChap = CHAPTERS[quizFilter.chapterIndex];
+    if(qChap){
+      const valid = new Set(qChap.sections);
+      const filtered = (quizFilter.sections||[]).filter(s=>valid.has(s));
+      if(filtered.length === 0){
+        quizFilter.sections = qChap.sections.slice();
+        saveJSON(QUIZ_FILTER_KEY, quizFilter);
+      } else {
+        quizFilter.sections = filtered;
+      }
+    }
+
+    renderSectionsDropdowns();
+    wireBottomNav();
+    wireMobileSpeakLast();
+
+    $('mq').value = $('q').value;
+
+    updateHeader();
+    renderBrowse();
+    renderFavorites();
+    renderQuizFilters();
+    updateQuizPoolCount();
+
+    $('subtitle').textContent = 'Ready.';
+  } catch(err){
+    $('title').textContent = 'Failed to load JSON';
+    $('subtitle').innerHTML = `Check file name/path. Error: <b>${esc(err.message)}</b><br/>Run local server: <span class="kbar">python -m http.server 8000</span>`;
+    console.error(err);
+  }
+}
+
+init();
+</script>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="bottom-nav d-lg-none">
+  <div class="d-flex gap-2">
+    <button class="nav-btn active" data-mtab="browse"><i class="bi bi-list-ul"></i><span>Browse</span></button>
+    <button class="nav-btn" data-mtab="flash"><i class="bi bi-card-text"></i><span>Cards</span></button>
+    <button class="nav-btn" data-mtab="quiz"><i class="bi bi-controller"></i><span>Quiz</span></button>
+    <button class="nav-btn" data-mtab="fav"><i class="bi bi-heart-fill"></i><span>Fav</span></button>
+    <button class="nav-btn" data-mtab="settings"><i class="bi bi-gear"></i><span>Settings</span></button>
+  </div>
+</div>
+
+</body>
+</html>
